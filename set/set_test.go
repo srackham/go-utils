@@ -3,7 +3,7 @@ package set
 import (
 	"testing"
 
-	"github.com/srackham/hindsite/v2/assert"
+	"github.com/srackham/cryptor/internal/assert"
 )
 
 func TestSet(t *testing.T) {

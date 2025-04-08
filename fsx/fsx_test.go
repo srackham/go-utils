@@ -11,16 +11,16 @@ func TestDirExists(t *testing.T) {
 		name string
 	}
 	tests := []struct {
-		name string
-		args args
-		want bool
+		name   string
+		args   args
+		wanted bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DirExists(tt.args.name); got != tt.want {
-				t.Errorf("DirExists() = %v, want %v", got, tt.want)
+			if got := DirExists(tt.args.name); got != tt.wanted {
+				t.Errorf("DirExists() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -31,16 +31,16 @@ func TestFileExists(t *testing.T) {
 		name string
 	}
 	tests := []struct {
-		name string
-		args args
-		want bool
+		name   string
+		args   args
+		wanted bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := FileExists(tt.args.name); got != tt.want {
-				t.Errorf("FileExists() = %v, want %v", got, tt.want)
+			if got := FileExists(tt.args.name); got != tt.wanted {
+				t.Errorf("FileExists() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -53,7 +53,7 @@ func TestReadFile(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    string
+		wanted  string
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -65,8 +65,8 @@ func TestReadFile(t *testing.T) {
 				t.Errorf("ReadFile() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got != tt.want {
-				t.Errorf("ReadFile() = %v, want %v", got, tt.want)
+			if got != tt.wanted {
+				t.Errorf("ReadFile() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -119,16 +119,16 @@ func TestFileName(t *testing.T) {
 		name string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name   string
+		args   args
+		wanted string
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := FileName(tt.args.name); got != tt.want {
-				t.Errorf("FileName() = %v, want %v", got, tt.want)
+			if got := FileName(tt.args.name); got != tt.wanted {
+				t.Errorf("FileName() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -140,16 +140,16 @@ func TestReplaceExt(t *testing.T) {
 		ext  string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name   string
+		args   args
+		wanted string
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ReplaceExt(tt.args.name, tt.args.ext); got != tt.want {
-				t.Errorf("ReplaceExt() = %v, want %v", got, tt.want)
+			if got := ReplaceExt(tt.args.name, tt.args.ext); got != tt.wanted {
+				t.Errorf("ReplaceExt() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -202,16 +202,16 @@ func TestPathIsInDir(t *testing.T) {
 		dir string
 	}
 	tests := []struct {
-		name string
-		args args
-		want bool
+		name   string
+		args   args
+		wanted bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PathIsInDir(tt.args.p, tt.args.dir); got != tt.want {
-				t.Errorf("PathIsInDir() = %v, want %v", got, tt.want)
+			if got := PathIsInDir(tt.args.p, tt.args.dir); got != tt.wanted {
+				t.Errorf("PathIsInDir() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -224,16 +224,16 @@ func TestPathTranslate(t *testing.T) {
 		dstRoot string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name   string
+		args   args
+		wanted string
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PathTranslate(tt.args.srcPath, tt.args.srcRoot, tt.args.dstRoot); got != tt.want {
-				t.Errorf("PathTranslate() = %v, want %v", got, tt.want)
+			if got := PathTranslate(tt.args.srcPath, tt.args.srcRoot, tt.args.dstRoot); got != tt.wanted {
+				t.Errorf("PathTranslate() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -244,16 +244,16 @@ func TestFileModTime(t *testing.T) {
 		f string
 	}
 	tests := []struct {
-		name string
-		args args
-		want time.Time
+		name   string
+		args   args
+		wanted time.Time
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := FileModTime(tt.args.f); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("FileModTime() = %v, want %v", got, tt.want)
+			if got := FileModTime(tt.args.f); !reflect.DeepEqual(got, tt.wanted) {
+				t.Errorf("FileModTime() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
@@ -264,16 +264,16 @@ func TestDirCount(t *testing.T) {
 		dir string
 	}
 	tests := []struct {
-		name string
-		args args
-		want int
+		name   string
+		args   args
+		wanted int
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := DirCount(tt.args.dir); got != tt.want {
-				t.Errorf("DirCount() = %v, want %v", got, tt.want)
+			if got := DirCount(tt.args.dir); got != tt.wanted {
+				t.Errorf("DirCount() = %v, wanted %v", got, tt.wanted)
 			}
 		})
 	}
