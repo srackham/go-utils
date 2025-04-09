@@ -69,6 +69,16 @@ func (slice Slice[T]) Filter(f func(T) bool) Slice[T] {
 	return result
 }
 
+// Find returns the first index of satisfying the predicate f, or -1 if no match is found.
+func (slice Slice[T]) Find(f func(T) bool) int {
+	for i, v := range slice {
+		if f(v) {
+			return i
+		}
+	}
+	return -1
+}
+
 // Map returns a new slice containing the results of applying the function f to each item in the `from` slice.
 func Map[T1 comparable, T2 comparable](from Slice[T1], f func(T1) T2) Slice[T2] {
 	result := make(Slice[T2], len(from))
