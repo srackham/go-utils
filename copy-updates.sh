@@ -84,23 +84,18 @@ check_is_directory() {
   local path_check="${path%/}" # Handle potential trailing slash for checks
 
   if [[ ! -e "$path_check" ]]; then
-    # Path doesn't exist at all (handles broken symlinks implicitly here too, as -e is false for them)
     echo "Error: $path_desc path '$path' not found." >&2
     return 1
   elif [[ ! -d "$path_check" ]]; then
-    # Path exists but isn't a directory (could be a file, or a symlink to a file/non-existent target)
     if [[ -L "$path_check" ]]; then
-        # It's a symlink, but -d failed, so it's not pointing to a directory
         local target
         target=$(readlink "$path_check")
         echo "Error: $path_desc path '$path' is a symbolic link, but does not point to an existing directory (points to: '$target')." >&2
     else
-        # Exists, not a symlink, not a directory -> must be a file or something else
         echo "Error: $path_desc path '$path' exists but is not a directory." >&2
     fi
     return 1
   fi
-  # If we passed all checks, it must be a directory or a symlink pointing to one
   return 0
 }
 
@@ -112,11 +107,13 @@ if ! check_is_directory "$TO_DIR" "Destination"; then
   exit 1
 fi
 
-# Check if sha256sum command exists
-if ! command -v sha256sum &> /dev/null; then
-    echo "Error: 'sha256sum' command not found. Please install it (e.g., part of coreutils)." >&2
-    exit 1
-fi
+# Check if required commands exist
+for cmd in sha256sum realpath find cut sort head cp basename; do
+    if ! command -v "$cmd" &> /dev/null; then
+        echo "Error: Required command '$cmd' not found. Please install it." >&2
+        exit 1
+    fi
+done
 
 
 # --- Main Logic ---
@@ -147,6 +144,30 @@ find "$TO_DIR" -type f -name "*.go" -print0 | while IFS= read -r -d $'\0' dest_g
   if [[ -n "$newest_source_match" ]]; then
     # echo "  Found candidate source file: '$newest_source_match'" # Debugging
 
+    # *** GET REAL PATHS to check if source and destination are the same file ***
+    # Use realpath -e to ensure the file must exist at the moment of checking
+    # Handle potential errors from realpath
+    real_source_path=$(realpath -e "$newest_source_match" 2>/dev/null)
+    real_source_status=$?
+    real_dest_path=$(realpath -e "$dest_go_file" 2>/dev/null)
+    real_dest_status=$?
+
+    # Check if realpath failed (e.g., file deleted between find and realpath)
+    if [[ $real_source_status -ne 0 ]]; then
+        echo "Warning: Could not determine real path for source '$newest_source_match' (may have been deleted?). Skipping '$go_filename'." >&2
+        continue
+    fi
+    if [[ $real_dest_status -ne 0 ]]; then
+        echo "Warning: Could not determine real path for destination '$dest_go_file' (may have been deleted?). Skipping '$go_filename'." >&2
+        continue
+    fi
+
+    # Compare real paths
+    if [[ "$real_source_path" == "$real_dest_path" ]]; then
+        # echo "Skipping identical file: '$real_dest_path'" # Optional: uncomment for verbose output
+        continue # Skip to the next file
+    fi
+
     # *** CONTENT COMPARISON using SHA256 ***
     # Calculate checksums - handle potential errors from sha256sum
     source_checksum=$(sha256sum "$newest_source_match" | cut -d ' ' -f 1)
@@ -157,12 +178,10 @@ find "$TO_DIR" -type f -name "*.go" -print0 | while IFS= read -r -d $'\0' dest_g
     # Check if checksum calculation failed for either file
     if [[ $source_checksum_status -ne 0 ]]; then
         echo "Warning: Could not read/checksum source '$newest_source_match'. Skipping comparison for '$go_filename'." >&2
-        # sha256sum prints its own error message (e.g., permission denied)
         continue
     fi
     if [[ $dest_checksum_status -ne 0 ]]; then
         echo "Warning: Could not read/checksum destination '$dest_go_file'. Skipping comparison for '$go_filename'." >&2
-        # sha256sum prints its own error message
         continue
     fi
 
