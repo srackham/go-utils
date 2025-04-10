@@ -1,12 +1,11 @@
 package set
 
 /*
-Generic Set type.
+Multiset type
 
-Taken from
-https://dbuddy.medium.com/implementing-set-data-structure-in-go-using-generics-4a967f823bfb
-and updated to work with Go 1.18 and added Count method.
+Maintains a count (multiplicity) of elements whose values are equal but not the element values.
 
+A multiset (also called a _bag_ or _mset_) allows multiple instances of the same element. The number of occurrences of an element is called its _multiplicity_.
 */
 
 type Set[T comparable] map[T]int
