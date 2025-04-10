@@ -9,12 +9,33 @@ A collection of Go utility packages for common tasks.
 
 - Each subdirectory is a stand-alone package containing one or more Go source files.
 
+## Examples
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/srackham/go-utils/fsx"
+)
+
+func main() {
+    if fsx.FileExists("somefile.txt") {
+        fmt.Println("File exists")
+    } else {
+        fmt.Println("File does not exist")
+    }
+}
+```
+
 ## Todo
+
+- Add AI generated tests.
 
 ### Set package
 - ~Rename the `set` package to `multiset`~
 - Add `Decrement` and `Increment` functions to decrement and increment the multiplicity of an element. Raise error if element is not present.
-- Rename the `Count` to `Multiplicity`.
+- ~Rename the `Count` to `Multiplicity`.~
 - Multiplicity can go decrement to zero, attempting to decrement further is ok (multiplicity can be less than zero).
 - The `Has` function is true if element is in set and multiplicity is greater than zero.
 - Rename `Len` to `Cardinality` (number of distinct elements.
@@ -23,7 +44,6 @@ A collection of Go utility packages for common tasks.
 
 This section is a scratchpad for writing AI code-generation prompts.
 
-### Generate copy-updates.sh
 ##### 09-Apr-2025:
 Does Go allow relative package imports? For example, two packages in the same directory, one importing the other.
 
@@ -121,3 +141,24 @@ func TestSet(t *testing.T) {
 	assert.False(t, set5.Has("foo"))
 }
 ```
+
+My go module is a collection of packages: `assert`, `fsx`, `set` and `slice`. The directory layout is as follows:
+
+```go
+├── assert
+│   ├── assert.go
+│   └── assert_test.go
+├── fsx
+│   ├── fsx.go
+│   └── fsx_test.go
+├── go.mod
+├── set
+│   ├── set.go
+│   └── set_test.go
+└── slice
+    ├── slice.go
+    └── slice_test.go
+```
+
+The module is hosted on Github and the module name is `github.com/srackham/go-utils`.
+How can I import a single package e.g.`fsx` into another Go project?
