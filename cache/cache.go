@@ -23,6 +23,9 @@ func New[T any](data *T, cacheFile string) *Cache[T] {
 }
 
 func (c *Cache[T]) Load() error {
+	if c.CacheFile == "" {
+		panic("uninitialised Cache.CacheFile")
+	}
 	var err error
 	if fsx.FileExists(c.CacheFile) {
 		s, err := fsx.ReadFile(c.CacheFile)
@@ -38,6 +41,9 @@ func (c *Cache[T]) Load() error {
 
 // Save writes the cache to disk if it has been modified.
 func (c *Cache[T]) Save() error {
+	if c.CacheFile == "" {
+		panic("uninitialised Cache.CacheFile")
+	}
 	json, err := json.MarshalIndent(*c.CacheData, "", "  ")
 	if err == nil {
 		sha := sha256.Sum256(json)
