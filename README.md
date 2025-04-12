@@ -19,13 +19,12 @@ Each subdirectory is a stand-alone package containing one or more Go source file
 ├── fsx
 │   ├── fsx.go
 │   └── fsx_test.go
-├── go.mod
-├── set
-│   ├── set.go
-│   └── set_test.go
-└── slice
-    ├── slice.go
-    └── slice_test.go
+├── helpers
+│   ├── helpers.go
+│   └── helpers_test.go
+└── set
+    ├── set.go
+    └── set_test.go
 ```
 
 The module is hosted on Github and the module name is `github.com/srackham/go-utils`.
@@ -54,10 +53,9 @@ func main() {
 
 - Add AI generated tests.
 
-### Set package
-- ~Rename the `set` package to `multiset`~
-- Add `Decrement` and `Increment` functions to decrement and increment the multiplicity of an element. Raise error if element is not present.
-- ~Rename the `Count` to `Multiplicity`.~
-- Multiplicity can go decrement to zero, attempting to decrement further is ok (multiplicity can be less than zero).
-- The `Has` function is true if element is in set and multiplicity is greater than zero.
-- Rename `Len` to `Cardinality` (number of distinct elements.
+- set package: ✘ ~Rename the `set` package to `multiset`~
+- set package: Add `Decrement` and `Increment` functions to decrement and increment the multiplicity of an element. Raise error if element is not present.
+- set package: Rename the `Count` to `GetCount`; add `SetCount` function.
+- set package: Multiplicity can go decrement to zero, attempting to decrement further is ok (multiplicity can be less than zero).
+- set package: Rename the `Has` function to `Contains` and return true if element is in set and multiplicity is greater than zero.
+- set package: Rename `Len` to `Cardinality` (number of distinct elements.
